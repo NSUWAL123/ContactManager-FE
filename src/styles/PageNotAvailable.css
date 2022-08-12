@@ -1,0 +1,25 @@
+.error-page-img {
+    width: 500px;
+}
+
+.error-main-cont {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.notavailable-link-home {
+    font-size: 2rem;
+    font-weight: 400;
+    border: 2px solid #263238;
+    color: white;
+    background-color: #263238;
+    padding: 10px;
+    /* border-radius: 50px; */
+}
+
+.notavailable-link-home:hover {
+    border: 2px solid #000000;
+    background-color: #000000;
+    color: white;
+}
