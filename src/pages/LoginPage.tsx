@@ -1,5 +1,6 @@
 import { Button, Checkbox, Form, Input } from 'antd';
 import React from 'react';
+import { Link } from 'react-router-dom';
 import '../styles/LoginPage.css'
 
 const LoginPage: React.FC = () => {
@@ -58,7 +59,7 @@ const LoginPage: React.FC = () => {
         <Button type="primary" htmlType="submit" className='login-btn'>
           <p>LOGIN</p> 
         </Button>
-    <a className='register-link'>CREATE MY ACCOUNT</a>
+    <Link to="/Registration" className='register-link'>CREATE MY ACCOUNT</Link>
       </Form.Item>
     </Form>
         {/* <link className='register-btn'>

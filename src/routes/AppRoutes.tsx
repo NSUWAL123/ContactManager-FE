@@ -6,6 +6,7 @@ import LandingPage from '../pages/LandingPage'
 import LoginPage from '../pages/LoginPage'
 import RegistrationPage from '../pages/RegistrationPage'
 import PageNotAvailable from '../pages/PageNotAvailable'
+import AddContact from '../pages/AddContactFormPage'
 
 const AppRoutes = () => {
   return (
@@ -16,6 +17,7 @@ const AppRoutes = () => {
                 <Route path='Landing' element={<LandingPage/>}/>
                 <Route path='Login' element={<LoginPage/>}/>
                 <Route path='Registration' element={<RegistrationPage/>}/>
+                <Route path='AddContact' element={<AddContact/>}/>
                 <Route path='*' element={<PageNotAvailable/>}/>            
             </Route>
         </Routes>

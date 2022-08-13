@@ -10,6 +10,7 @@ const BaseLayout = () => {
             <img src={logo} alt=""/>
             <h1>CMS</h1>
         </Link>
+        <hr />
         <Outlet/>
     </div>
   )
