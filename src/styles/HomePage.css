@@ -1,0 +1,41 @@
+.home-link-wrap {
+    display: flex;
+}
+
+.home-main-container {
+    display: flex;
+    justify-content: space-between;
+    margin: 0px 60px 0px 60px
+}
+
+.home-link-wrap p {
+    padding: 10px;
+    background-color: rgb(253, 83, 83);
+    color: white;
+    border-radius: 20px;
+    margin-left: 15px;
+}
+
+.home-link-wrap p:hover {
+    background-color: rgb(251, 109, 109);
+}
+
+.logout-link {
+    background-color: #ffffff;
+    color: rgb(0, 0, 0);
+    padding: 5px 10px 5px 10px;
+    border-radius: 5px;
+    border: 2px solid black;
+    margin-top: 50px;
+}
+
+.logout-link:hover {
+    background-color: rgb(226, 226, 226);
+}
+
+.home-left {
+    height: 85vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
