@@ -16,8 +16,6 @@ type Props = {};
 const Contacts = (props: Props) => {
   const dispatch = useDispatch();
   const contacts = useSelector((state: RootState) => state.contactReducer.data);
-  const [dataDeletion, setDataDeletion] = useState<boolean>(true);
-  const [favourite, setFavourite] = useState<boolean>(true);
 
   let data = contacts.map((contact) => {
     const dataObj = {
@@ -57,7 +55,6 @@ const Contacts = (props: Props) => {
           render={(favourite: boolean, object: contactType, index) => {
             return (
               <div
-                className="favourite-container"
                 onClick={() => handleFavourite(favourite, object)}
               >
                 {favourite ? (
@@ -105,11 +102,10 @@ const Contacts = (props: Props) => {
           render={(key) => (
             <Space size="small">
               <Link to={`${key}/edit-contact`}>
-                <a className="edit-link">Edit</a>
+                <a>Edit</a>
               </Link>
 
               <a
-                className="delete-link"
                 onClick={() => {
                   handleDelete(key);
                 }}
