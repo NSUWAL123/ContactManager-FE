@@ -5,8 +5,9 @@ import HomePage from "../pages/HomePage";
 import LoginPage from "../pages/LoginPage";
 import RegistrationPage from "../pages/RegistrationPage";
 import PageNotAvailable from "../pages/PageNotAvailable";
-import AddContact from "../pages/AddContactFormPage";
+import AddContact from "../pages/AddContact";
 import Contacts from "../pages/Contacts";
+import EditContact from "../pages/EditContact";
 
 const AppRoutes = () => {
   return (
@@ -14,10 +15,11 @@ const AppRoutes = () => {
       <Routes>
         <Route path="/" element={<BaseLayout />}>
           <Route index element={<HomePage />} />
-          <Route path="Login" element={<LoginPage />} />
-          <Route path="Registration" element={<RegistrationPage />} />
-          <Route path="AddContact" element={<AddContact />} />
-          <Route path="Contacts" element={<Contacts />} />
+          <Route path="login" element={<LoginPage />} />
+          <Route path="registration" element={<RegistrationPage />} />
+          <Route path="contacts/" element={<Contacts />} />
+          <Route path="contacts/addContact" element={<AddContact />} />
+          <Route path="contacts/editContact" element={<EditContact />} />
           <Route path="*" element={<PageNotAvailable />} />
         </Route>
       </Routes>

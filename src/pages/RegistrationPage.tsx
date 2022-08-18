@@ -51,8 +51,9 @@ const RegistrationPage = (props: Props) => {
         <Form.Item
           label={<h3>USERNAME</h3>}
           name="email"
-          rules={[{ required: true, message: "Please input your username!" }]}
+          rules={[{ required: true, message: "Please input your username!" }, { type: "email"}]}
           className="labels-register"
+          
         >
           <Input className="input-register" />
         </Form.Item>
@@ -60,7 +61,7 @@ const RegistrationPage = (props: Props) => {
         <Form.Item
           label={<h3>PASSWORD</h3>}
           name="password"
-          rules={[{ required: true, message: "Please input your password!" }]}
+          rules={[{ required: true, message: "Please input your password!", }]}
           className="labels-register"
         >
           <Input.Password className="input-register" />

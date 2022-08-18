@@ -13,8 +13,13 @@ const LoginPage = (props: Props) => {
 
   const onFinish = async (values: any) => {
     try {
-      navigate("/");
-    } catch (err) {}
+      const res:any = await http.login(values);
+      const token = res.data.data.access;
+      form.resetFields();
+      navigate("/contacts");
+    } catch (err) {
+      form.resetFields();
+    }
   };
 
   const onFinishFailed = (errorInfo: any) => {
@@ -46,7 +51,7 @@ const LoginPage = (props: Props) => {
         <Form.Item
           label={<h3>USERNAME</h3>}
           name="email"
-          rules={[{ required: true, message: "Please input your username!" }]}
+          rules={[{ required: true, message: "Please input your username!", type: "email" }]}
           className="labels-login"
         >
           <Input className="input-login" />

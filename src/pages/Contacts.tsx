@@ -1,9 +1,7 @@
 import { Space, Table } from "antd";
-import { useEffect, useState } from "react";
 import "../styles/Contact.css";
 import * as http from "../http";
 import { useDispatch, useSelector } from "react-redux";
-import { setContactData } from "../redux/contactSlice";
 import { RootState } from "../redux/store";
 import { Link } from "react-router-dom";
 import { HeartFilled, HeartOutlined } from "@ant-design/icons";
@@ -101,7 +99,7 @@ const Contacts = (props: Props) => {
           dataIndex="key"
           render={(key) => (
             <Space size="small">
-              <Link to={`${key}/edit-contact`}>
+              <Link to={`${key}/editContact`}>
                 <a>Edit</a>
               </Link>
 

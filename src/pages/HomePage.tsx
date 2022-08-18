@@ -9,17 +9,17 @@ const HomePage = () => {
       <div className="home-left">
         <HomeComponent />
         <div className="home-link-wrap">
-          <Link to="/Contacts">
+          <Link to="/contacts">
             <p>View Contacts</p>
           </Link>
-          <Link to="/AddContact">
+          <Link to="/contacts/AddContact">
             <p>Add Contact</p>
           </Link>
         </div>
       </div>
 
       <div className="home-link-right">
-        <Link to="/Login">
+        <Link to="/login">
           <p className="logout-link">Logout</p>
         </Link>
       </div>

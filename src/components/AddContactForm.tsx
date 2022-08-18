@@ -1,20 +1,43 @@
-import React, { useState } from "react";
-import { PlusOutlined, UploadOutlined } from "@ant-design/icons";
+import React, { useState, useEffect } from "react";
+import { UploadOutlined } from "@ant-design/icons";
 import { Form, Input, Button, Upload, Switch } from "antd";
 import "../styles/AddContactForm.css";
-import contact_img from "../pictures/Contacts.svg";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation, useParams } from "react-router-dom";
 import * as http from "../http";
 
 type Props = {};
 
 const AddContactForm = (props: Props) => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const params = useParams();
   const [form] = Form.useForm();
+  const [isAdd, setIsAdd] = useState<boolean | null>();
 
-  function onPhotoUpload(info: any) {
-    console.log("Photo uploaded");
-  }
+  // function onPhotoUpload(info: any) {
+  //   console.log("Photo uploaded");
+  // }
+
+  useEffect(() => {
+    if ("/contacts/AddContact" === location.pathname) {
+      form.setFieldsValue({ is_favourite: false });
+      setIsAdd(true);
+    } else {
+      (async () => {
+        const contactId = params.id;
+        const data = await http.getContact(contactId);
+
+        form.setFieldsValue({
+          name: data.name,
+          phone: data.phone,
+          email: data.email,
+          address: data.address,
+          is_favourite: data.is_favourite,
+        });
+      })();
+      setIsAdd(false);
+    }
+  }, []);
 
   const onFinish = async (values: any) => {
     const formData = new FormData();
@@ -22,8 +45,24 @@ const AddContactForm = (props: Props) => {
     formData.append("phone", values.phone);
     formData.append("email", values.email);
     formData.append("address", values.address);
-    formData.append("photo", values.picture.file.originFileObj);
-    formData.append("is_favourite", values.favourite);
+    formData.append("is_favourite", values.is_favourite);
+
+    if (isAdd) {
+      formData.append("photo", values.photo.file.originFileObj);
+      try {
+        await http.addContact(formData);
+      } catch (err) {
+        console.log(err);
+      }
+    } else {
+      values.photo?.file.originFileObj &&
+        formData.append("photo", values.photo.file.originFileObj);
+      try {
+        await http.updateContact(params.id, formData);
+      } catch (err) {
+        console.log(err);
+      }
+    }
 
     navigate("/contacts");
   };
@@ -34,10 +73,6 @@ const AddContactForm = (props: Props) => {
 
   return (
     <div className="add-contact-main">
-      <div className="add-contact-head">
-        <img src={contact_img} alt="" />
-        <h1>ADD CONTACT</h1>
-      </div>
       <Form
         form={form}
         labelCol={{ span: 8 }}
@@ -47,14 +82,14 @@ const AddContactForm = (props: Props) => {
         onFinishFailed={onFinishFailed}
       >
         <Form.Item
-          name="Name"
+          name="name"
           label={<h3>Name</h3>}
           rules={[{ required: true }]}
         >
           <Input className="add-contact-input" placeholder="Full Name" />
         </Form.Item>
         <Form.Item
-          name="Phone"
+          name="phone"
           label={<h3>Phone</h3>}
           rules={[{ required: true }]}
         >
@@ -64,14 +99,14 @@ const AddContactForm = (props: Props) => {
           />
         </Form.Item>
         <Form.Item
-          name="Email"
+          name="email"
           label={<h3>Email</h3>}
           rules={[{ required: true }]}
         >
           <Input className="add-contact-input" placeholder="Personal Email" />
         </Form.Item>
         <Form.Item
-          name="Address"
+          name="address"
           label={<h3>Address</h3>}
           rules={[{ required: true }]}
         >
@@ -83,16 +118,17 @@ const AddContactForm = (props: Props) => {
 
         <Form.Item
           label={<h3>Upload Photo</h3>}
-          name="picture"
+          name="photo"
           rules={[{ required: true }]}
         >
-          <Upload maxCount={1} onChange={onPhotoUpload}>
+          {/* onChange={onPhotoUpload} */}
+          <Upload maxCount={1}>
             <Button icon={<UploadOutlined />}>Click to Upload</Button>
           </Upload>
         </Form.Item>
 
         <Form.Item
-          name="favourite"
+          name="is_favourite"
           label={<h3>Favourite</h3>}
           valuePropName="checked"
         >
@@ -100,7 +136,7 @@ const AddContactForm = (props: Props) => {
         </Form.Item>
         <Form.Item wrapperCol={{ offset: 10, span: 16 }}>
           <Button htmlType="submit" className="addcontact-submit-btn">
-            <p className="addcontact-submit-p">CREATE CONTACT</p>
+            {isAdd ? "Add Contact" : "Edit Contact"}
           </Button>
           <Link to="/" className="add-contact-no">
             No
