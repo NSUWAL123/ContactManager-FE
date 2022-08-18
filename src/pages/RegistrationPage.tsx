@@ -50,7 +50,7 @@ const RegistrationPage = (props: Props) => {
         </div>
         <Form.Item
           label={<h3>USERNAME</h3>}
-          name="username"
+          name="email"
           rules={[{ required: true, message: "Please input your username!" }]}
           className="labels-register"
         >
