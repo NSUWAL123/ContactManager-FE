@@ -8,18 +8,23 @@ import PageNotAvailable from "../pages/PageNotAvailable";
 import AddContact from "../pages/AddContact";
 import Contacts from "../pages/Contacts";
 import EditContact from "../pages/EditContact";
+import ProtectedRoutes from "./ProtectedRoutes";
 
 const AppRoutes = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<BaseLayout />}>
           <Route index element={<HomePage />} />
           <Route path="login" element={<LoginPage />} />
           <Route path="registration" element={<RegistrationPage />} />
+
+
+        <Route path="/" element={<BaseLayout />}>
           <Route path="contacts/" element={<Contacts />} />
           <Route path="contacts/addContact" element={<AddContact />} />
-          <Route path="contacts/editContact" element={<EditContact />} />
+          <Route path="contacts/:id/editContact" element={<EditContact />} />
+
+
           <Route path="*" element={<PageNotAvailable />} />
         </Route>
       </Routes>

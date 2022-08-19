@@ -1,8 +1,8 @@
 import React from "react";
 import { Button, Form, Input } from "antd";
+import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import "../styles/RegistrationPage.css";
-import { useNavigate } from "react-router-dom";
 import * as http from "../http";
 
 type Props = {};
@@ -18,7 +18,6 @@ const RegistrationPage = (props: Props) => {
     };
 
     const response = http.signUp(submittedData);
-    form.resetFields();
     navigate("/login");
   };
 
@@ -64,7 +63,7 @@ const RegistrationPage = (props: Props) => {
           rules={[{ required: true, message: "Please input your password!", }]}
           className="labels-register"
         >
-          <Input.Password className="input-register" />
+          <Input.Password className="input-register"/>
         </Form.Item>
 
         <Form.Item wrapperCol={{ offset: 7, span: 22 }}>

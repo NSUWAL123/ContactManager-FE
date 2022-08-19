@@ -1,9 +1,9 @@
 import axios from "axios";
-import { loginType } from "./Domain/loginType";
-import { signupType } from "./Domain/signupType";
+import { loginType } from "./interface/loginType";
+import { signupType } from "./interface/signupType";
 import {
   getTokenFromLocalStorage,
-  setDataToLocalStorage,
+  setUserToLocalStorage,
 } from "./utils/handleToken";
 
 
@@ -23,7 +23,7 @@ export const signUp = async (userInfo: signupType) => {
 export const login = async (loginInfo: loginType) => {
   try {
     const res = await axios.post('/login', loginInfo);
-    setDataToLocalStorage(res.data.data.access, JSON.stringify(true));
+    setUserToLocalStorage(res.data.data.access, JSON.stringify(true));
     return res
   }
   catch (err) {

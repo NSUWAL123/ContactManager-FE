@@ -3,7 +3,7 @@
     border: 2px solid #9DFF7B;
     border-radius: 50px;
     width: 20rem;
-    height: 4rem;
+    height: 4rem;   
 }
 
 .addcontact-submit-btn:hover {
@@ -15,7 +15,7 @@
 
 .addcontact-submit-p {
     font-size: 1.8rem;
-    font-weight: 600;
+    font-weight: 700;
     margin-bottom: 4rem;
 }
 

@@ -1,11 +1,14 @@
-import { Space, Table } from "antd";
-import "../styles/Contact.css";
-import * as http from "../http";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../redux/store";
 import { Link } from "react-router-dom";
-import { HeartFilled, HeartOutlined } from "@ant-design/icons";
-import { contactType } from "../Domain/contactType";
+import "../styles/Contact.css";
+import { Space, Table } from "antd";
+import { HeartFilled, HeartOutlined, DeleteOutlined, EditOutlined } from "@ant-design/icons";
+import * as http from "../http";
+import { contactType } from "../interface/contactType";
+import { setContactData } from "../redux/contactSlice";
+import ProtectedRoutes from "../routes/ProtectedRoutes";
 
 const { Column } = Table;
 
@@ -14,6 +17,8 @@ type Props = {};
 const Contacts = (props: Props) => {
   const dispatch = useDispatch();
   const contacts = useSelector((state: RootState) => state.contactReducer.data);
+  const [dataDeletion, setDataDeletion] = useState<boolean>(true);
+  const [favourite, setFavourite] = useState<boolean>(true);
 
   let data = contacts.map((contact) => {
     const dataObj = {
@@ -22,15 +27,32 @@ const Contacts = (props: Props) => {
       phone: contact.phone,
       email: contact.email,
       address: contact.address,
-      photo: contact.photo,
+      image: contact.photo,
       favourite: contact.is_favourite,
     };
     return dataObj;
   });
 
+  useEffect(() => {
+    if (dataDeletion || favourite) {
+      (async () => {
+        let arrData = await http.getContacts();
+        dispatch(setContactData(arrData));
+
+        setDataDeletion(false);
+        setFavourite(false);
+      })();
+    }
+  }, [dataDeletion, favourite]);
+
+
   const handleDelete = async (key: number) => {
     try {
-      //handle delete
+      setDataDeletion(true);
+      await http.deleteContact(key);
+      data = data.filter((item: any) => {
+        return item.key !== key;
+      });
     } catch (err) {
       console.log(err);
     }
@@ -38,6 +60,10 @@ const Contacts = (props: Props) => {
 
   const handleFavourite = async (favourite: boolean, object: any) => {
     try {
+      setFavourite(true);
+      const formData = new FormData();
+      formData.append("is_favourite", !object.favourite + "");
+      await http.updateContact(object.key, formData);
     } catch (err) {
       console.log(err);
     }
@@ -45,20 +71,22 @@ const Contacts = (props: Props) => {
 
   return (
     <div>
-      <Table dataSource={data} pagination={false}>
+      <ProtectedRoutes/>
+      <Table dataSource={data} pagination={false} className='contact-table'>
         <Column
-          title={<p className="table-header">Favourite</p>}
+          title={<p className="table-header"></p>}
           dataIndex="favourite"
-          key="favourite"
+          className = "column-favourite"
+          key="key"
           render={(favourite: boolean, object: contactType, index) => {
             return (
-              <div
+              <div 
                 onClick={() => handleFavourite(favourite, object)}
               >
                 {favourite ? (
-                  <HeartFilled style={{ color: "red" }} />
+                  <HeartFilled style={{ color: "red", cursor: "pointer" }} className='ant-icon'/>
                 ) : (
-                  <HeartOutlined />
+                  <HeartOutlined style={{ color: "grey", cursor: "pointer" }} className='ant-icon'/>
                 )}
               </div>
             );
@@ -66,49 +94,55 @@ const Contacts = (props: Props) => {
         />
 
         <Column
-          title={<p className="table-header">Photo</p>}
+          title={<p className="table-header">PROFILE</p>}
           dataIndex="image"
+          className = "column-photo"
           key="image"
-          render={(pic) => <img src={pic} className="profile-img" />}
+          render={(pic) => <img src={pic} className="avatar" />}
+          align='center'
         />
 
         <Column
-          title={<p className="table-header">Name</p>}
+          title={<p className="table-header">NAME</p>}
           dataIndex="name"
           key="name"
+          align='center'
+          className='table-cell'
         />
         <Column
-          title={<p className="table-header">Phone</p>}
+          title={<p className="table-header">PHONE</p>}
           dataIndex="phone"
           key="phone"
+          align='center'
+          className='table-cell'
         />
         <Column
-          title={<p className="table-header">Email</p>}
+          title={<p className="table-header">EMAIL</p>}
           dataIndex="email"
           key="email"
+          align='center'
+          className='table-cell'
         />
         <Column
-          title={<p className="table-header">Address</p>}
+          title={<p className="table-header">ADDRESS</p>}
           dataIndex="address"
           key="address"
+          align='center'
+          className='table-cell'
         />
 
         <Column
-          title={<p className="table-header">Action</p>}
+          title={<p className="table-header"></p>}
           key="action"
           dataIndex="key"
+          align='left'
           render={(key) => (
             <Space size="small">
               <Link to={`${key}/editContact`}>
-                <a>Edit</a>
+                <a style={{}}><EditOutlined style={{color: 'green'}} className='ant-icon'/></a>
               </Link>
-
-              <a
-                onClick={() => {
-                  handleDelete(key);
-                }}
-              >
-                Delete
+              <a onClick={() => {handleDelete(key);}}>
+              <DeleteOutlined style={{color: 'red'}} className='ant-icon'/>
               </a>
             </Space>
           )}

@@ -6,17 +6,13 @@ import { Link, useNavigate, useLocation, useParams } from "react-router-dom";
 import * as http from "../http";
 
 type Props = {};
-
-const AddContactForm = (props: Props) => {
+//props: Props
+const AddContactForm = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const params = useParams();
   const [form] = Form.useForm();
   const [isAdd, setIsAdd] = useState<boolean | null>();
-
-  // function onPhotoUpload(info: any) {
-  //   console.log("Photo uploaded");
-  // }
 
   useEffect(() => {
     if ("/contacts/AddContact" === location.pathname) {
@@ -63,7 +59,6 @@ const AddContactForm = (props: Props) => {
         console.log(err);
       }
     }
-
     navigate("/contacts");
   };
 
@@ -96,6 +91,7 @@ const AddContactForm = (props: Props) => {
           <Input
             className="add-contact-input"
             placeholder="Primary Phone Number"
+            type="number"
           />
         </Form.Item>
         <Form.Item
@@ -103,7 +99,11 @@ const AddContactForm = (props: Props) => {
           label={<h3>Email</h3>}
           rules={[{ required: true }]}
         >
-          <Input className="add-contact-input" placeholder="Personal Email" />
+          <Input
+            className="add-contact-input"
+            placeholder="Personal Email"
+            type="email"
+          />
         </Form.Item>
         <Form.Item
           name="address"
@@ -116,12 +116,7 @@ const AddContactForm = (props: Props) => {
           />
         </Form.Item>
 
-        <Form.Item
-          label={<h3>Upload Photo</h3>}
-          name="photo"
-          rules={[{ required: true }]}
-        >
-          {/* onChange={onPhotoUpload} */}
+        <Form.Item label={<h3>Upload Photo</h3>} name="photo">
           <Upload maxCount={1}>
             <Button icon={<UploadOutlined />}>Click to Upload</Button>
           </Upload>
@@ -136,11 +131,17 @@ const AddContactForm = (props: Props) => {
         </Form.Item>
         <Form.Item wrapperCol={{ offset: 10, span: 16 }}>
           <Button htmlType="submit" className="addcontact-submit-btn">
-            {isAdd ? "Add Contact" : "Edit Contact"}
+            <p>{isAdd ? "Create Contact" : "Edit Contact"}</p>
           </Button>
-          <Link to="/" className="add-contact-no">
-            No
-          </Link>
+          {isAdd ? (
+            <Link to="/" className="add-contact-no">
+              No
+            </Link>
+          ) : (
+            <Link to="/contacts" className="add-contact-no">
+              No
+            </Link>
+          )}
         </Form.Item>
       </Form>
     </div>

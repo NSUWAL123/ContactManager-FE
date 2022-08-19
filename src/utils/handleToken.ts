@@ -1,4 +1,4 @@
-export const setDataToLocalStorage = (
+export const setUserToLocalStorage = (
     token: string,
     isAuthenticated: string
   ) => {
@@ -18,7 +18,7 @@ export const setDataToLocalStorage = (
     }
   };
   
-  export const removeDataFromLocalStorage = () => {
+  export const removeUserFromLocalStorage = () => {
     localStorage.removeItem("isAuthenticated");
     localStorage.removeItem("access");
   };

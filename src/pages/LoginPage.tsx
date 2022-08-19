@@ -16,7 +16,7 @@ const LoginPage = (props: Props) => {
       const res:any = await http.login(values);
       const token = res.data.data.access;
       form.resetFields();
-      navigate("/contacts");
+      navigate("/");
     } catch (err) {
       form.resetFields();
     }
