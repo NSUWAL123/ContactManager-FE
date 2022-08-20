@@ -5,8 +5,6 @@ import "../styles/AddContactForm.css";
 import { Link, useNavigate, useLocation, useParams } from "react-router-dom";
 import * as http from "../http";
 
-type Props = {};
-//props: Props
 const AddContactForm = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -116,11 +114,19 @@ const AddContactForm = () => {
           />
         </Form.Item>
 
-        <Form.Item label={<h3>Upload Photo</h3>} name="photo">
+        {isAdd ?
+          <Form.Item label={<h3>Upload Photo</h3>} name="photo" rules={[{ required: true }]}>
           <Upload maxCount={1}>
             <Button icon={<UploadOutlined />}>Click to Upload</Button>
           </Upload>
+        </Form.Item> :
+
+        <Form.Item label={<h3>Upload Photo</h3>} name="photo">
+        <Upload maxCount={1}>
+          <Button icon={<UploadOutlined />}>Click to Upload</Button>
+        </Upload>
         </Form.Item>
+        }
 
         <Form.Item
           name="is_favourite"

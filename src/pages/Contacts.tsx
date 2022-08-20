@@ -9,12 +9,11 @@ import * as http from "../http";
 import { contactType } from "../interface/contactType";
 import { setContactData } from "../redux/contactSlice";
 import ProtectedRoutes from "../routes/ProtectedRoutes";
+import { sortContact } from "../utils/sortContacts";
 
 const { Column } = Table;
 
-type Props = {};
-
-const Contacts = (props: Props) => {
+const Contacts = () => {
   const dispatch = useDispatch();
   const contacts = useSelector((state: RootState) => state.contactReducer.data);
   const [dataDeletion, setDataDeletion] = useState<boolean>(true);
@@ -37,7 +36,8 @@ const Contacts = (props: Props) => {
     if (dataDeletion || favourite) {
       (async () => {
         let arrData = await http.getContacts();
-        dispatch(setContactData(arrData));
+
+        dispatch(setContactData(sortContact(arrData)));
 
         setDataDeletion(false);
         setFavourite(false);
